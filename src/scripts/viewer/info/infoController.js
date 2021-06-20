@@ -1,6 +1,7 @@
 var toGravatar = require('./toGravatar');
 var getPackageVersions = require('../../getPackageVersions.js');
 var getLocation = require('../getLocation.js');
+var isCompatible = require('./matrix.js');
 
 module.exports = infoController;
 
@@ -27,6 +28,61 @@ function infoController($scope, $http, $q, $location, $routeParams) {
       var container = document.querySelector('.infoBox');
       if (container) container.scrollTop = 0;
     }
+  };
+
+  $scope.compatibilityTester = function(e) {
+    e.preventDefault();
+
+    let graph = $scope.graph
+    let licenses = $scope.allLicenses
+    let rootLicense = graph.root.data.license
+
+    console.log("graph");
+    console.log(graph);
+
+    console.log("allLicenses");
+    console.log(licenses);
+
+    console.log("isCompatible")
+    console.log(isCompatible("MIT", "MIT"))
+
+    let compatiblePackages = [];
+    let incompatiblePackages = [];
+    licenses.forEach(function(lic) {
+
+      if(isCompatible(lic.name, rootLicense) == true) {
+        compatiblePackages = compatiblePackages.concat(lic.packages);
+      }
+
+      if(isCompatible(lic.name, rootLicense) == false) {
+        incompatiblePackages = incompatiblePackages.concat(lic.packages);
+      }
+
+    });
+    console.log("compatiblePackages");
+    console.log(compatiblePackages);
+
+    console.log("incompatiblePackages");
+    console.log(incompatiblePackages);
+
+    $scope.$root.$broadcast('highlight-compatibility', {
+      compids: compatiblePackages,
+      incompids: incompatiblePackages
+    });
+
+    
+
+    // if (selectedLicense) selectedLicense.selected = false;
+    // selectedLicense = record;
+    // if (selectedLicense) selectedLicense.selected = true;
+
+    // $scope.responsiveOpen = false;
+    // if (e && document.body.client.width < 630) {
+    //   // On small screens this scrolls package Info/graph info into view.
+    //   // TODO: Get rid of this code.
+    //   var container = document.querySelector('.infoBox');
+    //   if (container) container.scrollTop = 0;
+    // }
   };
 
   $scope.hideInfoBox = function (e) {

@@ -70,6 +70,10 @@
       <div class='clearfix'></div>
     </div>
     <hr>
+      <a ng-click="compatibilityTester($event)">License compatibility tester</a><br>
+      <span>Root package license: {{ graph.root.data.license }}</span>
+    <hr>
+
     <div class='all-licenses'>
       <h4>licenses</h4>
       <div class='license-container'>
@@ -83,6 +87,7 @@
       </div>
       <div class='clearfix'></div>
     </div>
+
     <div class='all-licenses'>
       <h4>names</h4>
       <div class='license-container'>
@@ -96,5 +101,6 @@
       </div>
       <div class='clearfix'></div>
     </div>
+
   </div>
 </div>

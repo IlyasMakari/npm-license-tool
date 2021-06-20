@@ -9,7 +9,7 @@ var gulp = require('gulp'),
 
 var devServer = {
   port: argv.port || Math.round(31337 + Math.random() * 1000),
-  server: argv.server || '0.0.0.0',
+  server: argv.server || 'localhost',
   livereload: 35000 + Math.round((Math.random() * 1000)),
   root: './dist'
 };

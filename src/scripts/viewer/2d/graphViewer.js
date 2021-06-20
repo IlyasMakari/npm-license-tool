@@ -36,6 +36,10 @@ function graphViewer() {
             highlightNodesFromRequest(request);
           });
 
+          scope.$on('highlight-compatibility', function(_, request) {
+            highlightCompatibilityFromRequest(request);
+          });
+
           var graphUI = require('./graphUI')(renderer.svgRoot);
 
           renderer.node(graphUI.node).placeNode(graphUI.placeNode);
@@ -94,6 +98,14 @@ function graphViewer() {
             graph.forEachNode(graphUI.defaultHighlight);
             request.ids.forEach(function (id) { graphUI.setColor(id, request.color); });
           }
+
+          function highlightCompatibilityFromRequest(request) {
+            graph.forEachNode(graphUI.defaultHighlight);
+            request.compids.forEach(function (id) { graphUI.setColor(id, 'green'); });
+            request.incompids.forEach(function (id) { graphUI.setColor(id, 'red'); });
+          }
+
+          
         }
       }
     }
