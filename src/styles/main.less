@@ -155,6 +155,12 @@ div.infoBox {
       &.selected {
         color: @acent-color;
       }
+      &.compatible {
+        color: green;
+      }
+      &.incompatible {
+        color: red;
+      }
     }
 
     .license-row {
@@ -328,6 +334,7 @@ a.hide-info-box {
     padding: 0 12px 12px 12px;
     border-right: 0px;
     overflow-y: hidden;
+
     .header {
       a.selected {
         color: @secondary-color;

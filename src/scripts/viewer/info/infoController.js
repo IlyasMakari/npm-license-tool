@@ -52,10 +52,12 @@ function infoController($scope, $http, $q, $location, $routeParams) {
 
       if(isCompatible(lic.name, rootLicense) == true) {
         compatiblePackages = compatiblePackages.concat(lic.packages);
+        lic.compatible = true;
       }
 
       if(isCompatible(lic.name, rootLicense) == false) {
         incompatiblePackages = incompatiblePackages.concat(lic.packages);
+        lic.compatible = false;
       }
 
     });
