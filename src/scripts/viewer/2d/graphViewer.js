@@ -80,13 +80,20 @@ function graphViewer() {
           function higlightNode(node) {
             resetHighlight();
 
-            graphUI.resetLinks();
+            // reset all links except the links that are marked as incompatible
+            graph.forEachLink(function(link) {
+              if(link.data === undefined || !(link.data.compatible == false)) graphUI.defaultLinkHighlight(link);
+            });
+
             graphUI.highlight(node.id, '#E0DE0F', '#E0DE0F');
 
             graph.forEachLinkedNode(node.id, function(other, link) {
               var color = '#CFCCDF';
               graphUI.highlight(other.id, color);
-              graphUI.highlightLink(link.id, color);
+
+              // Highlight links of the node, except if the link is marked as incompatible
+              if(link.data === undefined || !(link.data.compatible == false)) graphUI.highlightLink(link.id, color);
+
             });
           }
 

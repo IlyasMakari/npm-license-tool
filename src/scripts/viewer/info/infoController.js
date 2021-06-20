@@ -60,12 +60,15 @@ function infoController($scope, $http, $q, $location, $routeParams) {
     let compatibleLinks = [];
     let incompatibleLinks = [];
     graph.forEachLink(function(link) {
+      if(link.data === undefined) link.data = {};
       let from = graph.getNode(link.fromId);
       let to = graph.getNode(link.toId);
       if(isCompatible(to.data.license, from.data.license) == true) {
+        link.data.compatible = true;
         compatibleLinks.push(link);
       }
       if(isCompatible(to.data.license, from.data.license) == false) {
+        link.data.compatible = false;
         incompatibleLinks.push(link);
       }
     });

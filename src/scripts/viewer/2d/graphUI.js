@@ -42,6 +42,10 @@ module.exports = function(svgRoot) {
       graphUI.setColor(node.id, defaultNodeColor, defaultTextColor);
     },
 
+    defaultLinkHighlight: function(link) {
+      highlightLink(link.id, '#5A5D6E');
+    },
+
     node: function(node) {
       var ui = svg.compile([
         "<g>",
