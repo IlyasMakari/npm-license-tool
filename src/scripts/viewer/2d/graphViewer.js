@@ -101,7 +101,6 @@ function graphViewer() {
 
           function highlightCompatibilityFromRequest(request) {
             graph.forEachNode(graphUI.defaultHighlight);
-            request.compids.forEach(function (id) { graphUI.setColor(id, 'green'); });
             request.incompids.forEach(function (id) { graphUI.setColor(id, 'red'); });
           }
 
