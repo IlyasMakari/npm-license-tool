@@ -34,45 +34,46 @@ function infoController($scope, $http, $q, $location, $routeParams) {
     e.preventDefault();
 
     let graph = $scope.graph
-    let licenses = $scope.allLicenses
-    let rootLicense = graph.root.data.license
 
-    console.log("graph");
-    console.log(graph);
-
-    console.log("allLicenses");
-    console.log(licenses);
-
-    console.log("isCompatible")
-    console.log(isCompatible("MIT", "MIT"))
-
+    // Find all packages that are incompatible with license of the root package (highlight nodes)
     let compatiblePackages = [];
     let incompatiblePackages = [];
+    let licenses = $scope.allLicenses
+    let rootLicense = graph.root.data.license
     licenses.forEach(function(lic) {
-
       if(isCompatible(lic.name, rootLicense) == true) {
         compatiblePackages = compatiblePackages.concat(lic.packages);
         lic.compatible = true;
       }
-
       if(isCompatible(lic.name, rootLicense) == false) {
         incompatiblePackages = incompatiblePackages.concat(lic.packages);
         lic.compatible = false;
       }
-
     });
-    console.log("compatiblePackages");
-    console.log(compatiblePackages);
-
-    console.log("incompatiblePackages");
-    console.log(incompatiblePackages);
 
     $scope.$root.$broadcast('highlight-compatibility', {
       compids: compatiblePackages,
       incompids: incompatiblePackages
     });
 
-    
+    // Find all incompatible dependencies (highlight edges)
+    let compatibleLinks = [];
+    let incompatibleLinks = [];
+    graph.forEachLink(function(link) {
+      let from = graph.getNode(link.fromId);
+      let to = graph.getNode(link.toId);
+      if(isCompatible(to.data.license, from.data.license) == true) {
+        compatibleLinks.push(link);
+      }
+      if(isCompatible(to.data.license, from.data.license) == false) {
+        incompatibleLinks.push(link);
+      }
+    });
+
+    $scope.$root.$broadcast('highlight-link-compatibility', {
+      complinks: compatibleLinks,
+      incomplinks: incompatibleLinks
+    });
 
     // if (selectedLicense) selectedLicense.selected = false;
     // selectedLicense = record;

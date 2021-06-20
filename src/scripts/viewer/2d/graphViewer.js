@@ -40,6 +40,10 @@ function graphViewer() {
             highlightCompatibilityFromRequest(request);
           });
 
+          scope.$on('highlight-link-compatibility', function(_, request) {
+            highlightLinkCompatibilityFromRequest(request);
+          });
+
           var graphUI = require('./graphUI')(renderer.svgRoot);
 
           renderer.node(graphUI.node).placeNode(graphUI.placeNode);
@@ -104,6 +108,10 @@ function graphViewer() {
             request.incompids.forEach(function (id) { graphUI.setColor(id, 'red'); });
           }
 
+          function highlightLinkCompatibilityFromRequest(request) {
+            graphUI.resetLinks();
+            request.incomplinks.forEach(function (link) { graphUI.highlightLink(link.id, 'red'); });
+          }
           
         }
       }
